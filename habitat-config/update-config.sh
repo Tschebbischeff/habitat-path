@@ -8,8 +8,8 @@ for dirPath in "./source/"*; do
     if [ -d "./target/traefik" ]; then
         echo "Traefik config:"
         rm -f "./target/traefik/${APP_MODULE_NAME}."*
-        if [ -d "./source/$dirPath/traefik" ]; then
-            for f in "./source/$dirPath/traefik/"*; do
+        if [ -d "$dirPath/traefik" ]; then
+            for f in "$dirPath/traefik/"*; do
                 echo " $f -> ./target/traefik/${APP_MODULE_NAME}.$(basename "$f")"
                 cp "$f" "./target/traefik/${APP_MODULE_NAME}.$(basename "$f")";
             done
