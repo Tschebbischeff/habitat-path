@@ -1,0 +1,100 @@
+name: ${APP_NAME_HOST}
+
+networks:
+  internal:
+    name: ${APP_NAME_HOST}_internal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+volumes:
+  traefik-certs:
+  traefik-dynamic:
+  tailscale:
+
+
+secrets:
+  TS_AUTHKEY:
+    file: ${SECRETS_DIR}/TS_AUTHKEY
+  PORKBUN_API_KEY:
+    file: ${SECRETS_DIR}/PORKBUN_API_KEY
+  PORKBUN_API_SECRET_KEY:
+    file: ${SECRETS_DIR}/PORKBUN_API_SECRET_KEY
+
+services:
+
+  habitat-config:
+    build:
+      context: ./habitat-config
+    container_name: ${APP_NAME_HOST}_${APP_MODULE_NAME}-config
+    restart: no
+    volumes:
+      - traefik-dynamic:/habitat-config/target/traefik
+      - ./habitat-config/config:/habitat-config/source:ro
+
+  traefik:
+    build:
+      context: ./traefik
+    container_name: ${APP_NAME_HOST}_traefik
+    restart: always
+    expose:
+      - "80"
+      - "443"
+      - "8080"
+    env_file:
+      - ./.env
+      - path: ${ENV_DIR}/.env
+        required: false
+      - path: ${ENV_DIR}/traefik.env
+        required: false
+    secrets:
+      - PORKBUN_API_KEY
+      - PORKBUN_API_SECRET_KEY
+    volumes:
+      - ./traefik/config:/etc/traefik
+      - traefik-certs:/etc/traefik-certs
+      - traefik-dynamic:/etc/traefik-dynamic
+    networks:
+      internal:
+    healthcheck:
+      test: [ "CMD", "traefik", "healthcheck", "--ping" ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  tailscale:
+    build:
+      context: ./tailscale
+    container_name: ${APP_NAME_HOST}_tailscale
+    restart: always
+    env_file:
+      - ./.env
+      - path: ${ENV_DIR}/.env
+        required: false
+      - path: ${ENV_DIR}/tailscale.env
+        required: false
+    environment:
+      TS_STATE_DIR: "/var/lib/tailscale"
+      TS_USERSPACE: "true"
+      TS_HOSTNAME: "${APP_NAME_HOST}"
+      TS_ACCEPT_DNS: "false"
+      TS_SERVE_CONFIG: "/config/serve-config.json"
+      TS_ENABLE_HEALTH_CHECK: "true"
+      TS_LOCAL_ADDR_PORT: "127.0.0.1:41234"
+      TS_AUTH_ONCE: "true"
+      TS_AUTHKEY_FILE: /run/secrets/TS_AUTHKEY
+    secrets:
+      - TS_AUTHKEY
+    volumes:
+      - tailscale:/var/lib/tailscale
+      - ./tailscale/config:/config
+    networks:
+      internal:
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://127.0.0.1:41234/healthz" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s

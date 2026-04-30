@@ -1,0 +1,19 @@
+# Documentation:
+# https://doc.traefik.io/traefik/reference/routing-configuration/dynamic-configuration-methods/
+# https://doc.traefik.io/traefik/reference/routing-configuration/http/tls/overview/
+
+http:
+  routers:
+    traefik-dashboard:
+      rule: "Host(`traefik-dashboard.{{ env "APP_HOST" }}`)"
+      service: api@internal
+      entryPoints: ["websecure"]
+      middlewares:
+        - "cors-policy"
+        - "auth-proxy"
+      tls:
+        certResolver: porkbun-api
+        domains:
+          - main: "{{ env "APP_HOST" }}"
+            sans:
+              - "*.{{ env "APP_HOST" }}"

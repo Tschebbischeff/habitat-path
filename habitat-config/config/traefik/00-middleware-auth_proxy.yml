@@ -1,0 +1,6 @@
+http:
+  middlewares:
+    auth-proxy:
+      headers:
+        customRequestHeaders:
+          X-Auth-Status: "none"

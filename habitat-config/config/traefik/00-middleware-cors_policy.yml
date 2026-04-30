@@ -1,0 +1,16 @@
+http:
+  middlewares:
+    cors-policy:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - POST
+        accessControlAllowOriginList:
+          - "https://{{ env "APP_HOST" }}"
+        accessControlMaxAge: 100
+        accessControlAllowHeaders:
+          - "Authorization"
+          - "Content-Type"
+        addVaryHeader: true
+        accessControlAllowCredentials: true

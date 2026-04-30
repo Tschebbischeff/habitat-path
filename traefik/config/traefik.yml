@@ -1,0 +1,40 @@
+# Documentation: https://doc.traefik.io/traefik/reference/install-configuration/configuration-options/
+
+log:
+  level: INFO
+
+ping:
+  entryPoint: traefik
+
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+  mediamtx-webrtc-udp:
+    address: ":8189/udp"
+
+certificatesResolvers:
+  porkbun-api:
+    acme:
+      email: topic+acme@habitat.tschebbischeff.dev
+      storage: /etc/traefik-certs/acme.json
+      dnschallenge:
+        provider: porkbun
+        propagation:
+          delaybeforechecks: 60
+
+providers:
+  file:
+    directory: "/etc/traefik-dynamic"
+    watch: true
