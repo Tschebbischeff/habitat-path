@@ -27,11 +27,20 @@ services:
   habitat-config:
     build:
       context: ./habitat-config
-    container_name: ${APP_NAME_HOST}_${APP_MODULE_NAME}-config
+    container_name: ${APP_NAME_HOST}_habitat-config
     restart: no
+    env_file:
+      - ./.env
+      - path: ${ENV_DIR}/.env
+        required: false
+      - path: ${ENV_DIR}/habitat-config.env
+        required: false
     volumes:
       - traefik-dynamic:/habitat-config/target/traefik
-      - ./habitat-config/config:/habitat-config/source:ro
+      - ./habitat-config/config:/habitat-config/source/${APP_MODULE_NAME}:ro
+    networks:
+      internal:
+
 
   traefik:
     build:
