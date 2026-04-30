@@ -3,15 +3,18 @@
 cd "/habitat-config" || exit 1
 
 for dirPath in "./source/"*; do
-    echo "*** Applying configuration for '$APP_MODULE_NAME' (Source directory: $(basename "$dirPath"))"
+    echo "*** Applying configuration for module '$APP_MODULE_NAME' (Source directory: /habitat-config/source/$(basename "$dirPath"))..."
     # Traefik Dynamic Config
     if [ -d "./target/traefik" ]; then
-        echo "Applying traefik config"
+        echo "Traefik config:"
+        rm -f "./target/traefik/${APP_MODULE_NAME}."*
         if [ -d "./source/$dirPath/traefik" ]; then
-            rm -f "./target/traefik/${APP_MODULE_NAME}."*
             for f in "./source/$dirPath/traefik/"*; do
+                echo " $f -> ./target/traefik/${APP_MODULE_NAME}.$(basename "$f")"
                 cp "$f" "./target/traefik/${APP_MODULE_NAME}.$(basename "$f")";
             done
+        else
+            echo " None"
         fi
     fi
 done
