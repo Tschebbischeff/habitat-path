@@ -38,7 +38,7 @@ services:
       internal:
     volumes:
       - traefik-dynamic:/habitat-config/target/traefik
-      - ./habitat-config/config:/habitat-config/source/${APP_MODULE_NAME}:ro
+      - ./habitat-config:/habitat-config/source/${APP_MODULE_NAME}:ro
 
   traefik:
     build:
