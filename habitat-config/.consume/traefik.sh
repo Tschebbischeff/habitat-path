@@ -11,26 +11,31 @@ TARGET_PATH="$2"
 MERGE_PATH="$SOURCE_PATH/.merged"
 mkdir -p "$MERGE_PATH"
 
+mergeYAML() {
+    local sourceFile="$1"
+    local targetFile="$2"
+    local mergedFileContents="";
+    echo "Merging '$sourceFile' into '$targetFile'"
+    mkdir -p "$(dirname -- "$targetFile")"
+    touch "$targetFile"
+    # shellcheck disable=SC2016 # $item variable is part of yq expression and not to be expanded
+    mergedFileContents="$(yq eval-all '. as $item ireduce ({}; . * $item )' "$targetFile" "$sourceFile")"
+    echo "$mergedFileContents" >"$targetFile"
+}
+
 for moduleSrcPath in "$SOURCE_PATH/"*; do
     [ ! -d "$moduleSrcPath" ] && continue
     echo "Merging configuration provided by '$(basename "$moduleSrcPath")' module..."
     (
         cd "$moduleSrcPath"
         find . -name '*.yml' -type f -printf '%P\n' | while read -r cfgRelFilePath; do
-            echo "Merging '$cfgRelFilePath'"
-            cfgRelDirPath="$(dirname "$cfgRelFilePath")"
-            [ "$cfgRelDirPath" == "." ] && cfgRelDirPath=""
-            mkdir -p "$MERGE_PATH/$cfgRelDirPath"
-            touch "$MERGE_PATH/$cfgRelFilePath"
-            # shellcheck disable=SC2016 # $item variable is part of yq expression and not to be expanded
-            yq eval-all '. as $item ireduce ({}; . * $item )' "$MERGE_PATH/$cfgRelFilePath" "$cfgRelFilePath"
+            mergeYAML "$cfgRelFilePath" "$MERGE_PATH/$cfgRelFilePath"
         done
     )
     echo "Evaluating priorities..."
     (
         cd "$MERGE_PATH"
         find . -name '*.yml' -type f -printf '%P\n' | while read -r cfgRelFilePath; do
-            cfgRelDirPath="$(dirname "$cfgRelFilePath")"
             cfgFileName="$(basename -- "$cfgRelFilePath")"
             cfgFileExtension="${cfgFileName##*.}"
             cfgFileBaseName="${cfgFileName%.*}"
@@ -41,7 +46,7 @@ for moduleSrcPath in "$SOURCE_PATH/"*; do
             cfgFileBaseName="${cfgFileBaseName%.*}"
             cfgFilePriority="${cfgFilePriority##hbtprio-}"
             cfgFilePriority="$(( cfgFilePriority + 0 ))"
-            echo "Merging '$cfgRelFilePath' into '$cfgRelDirPath/$cfgFileBaseName.$cfgFileExtension'"
+            mergeYAML "$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
         done
     )
 done
