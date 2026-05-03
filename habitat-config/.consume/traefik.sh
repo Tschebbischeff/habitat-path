@@ -15,7 +15,7 @@ mergeYAML() {
     local sourceFile="$1"
     local targetFile="$2"
     local mergedFileContents="";
-    echo "Merging '${sourceFile#"$SOURCE_PATH"}' into '${targetFile#"$SOURCE_PATH"}'"
+    echo "Merging '${sourceFile#"$SOURCE_PATH/"}' into '${targetFile#"$SOURCE_PATH/"}'"
     mkdir -p "$(dirname -- "$targetFile")"
     touch "$targetFile"
     # shellcheck disable=SC2016 # $item variable is part of yq expression and not to be expanded
