@@ -42,14 +42,27 @@ echo "Merging based on priorities..."
         cfgFileExtension="${cfgFileName##*.}"
         cfgFileBaseName="${cfgFileName%.*}"
         cfgFilePriority="${cfgFileBaseName##*.}"
-        if ! [[ "$cfgFilePriority" =~ ^hbtprio-[0-9]+$ ]] || [ "$cfgFilePriority" == "$cfgFileBaseName" ]; then
+        re='^hbtprio-(override-)?[0-9]+$'
+        if ! [[ "$cfgFilePriority" =~ $re ]] || [ "$cfgFilePriority" == "$cfgFileBaseName" ]; then
             continue
         fi
         cfgFileBaseName="${cfgFileBaseName%.*}"
         cfgFilePriority="${cfgFilePriority##hbtprio-}"
+        overrideConfigFile=""
+        if echo "$cfgFilePriority" | grep -q '^override-'; then
+            overrideConfigFile="_"
+            cfgFilePriority="${cfgFilePriority##override-}"
+        fi
         cfgFilePriority="$(( cfgFilePriority + 0 ))"
-        mergeYAML "$MERGE_PATH/$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
-        rm "$MERGE_PATH/$cfgRelFilePath"
+        sourceFile="$MERGE_PATH/$cfgRelFilePath"
+        targetFile="$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
+        if [ -n "$overrideConfigFile" ]; then
+            echo "Overriding '${sourceFile#"$SOURCE_PATH/"}' over '${targetFile#"$SOURCE_PATH/"}'"
+            cp -f "$sourceFile" "$targetFile"
+        else
+            mergeYAML "$sourceFile" "$targetFile"
+        fi
+        rm "$sourceFile"
     done
 )
 
