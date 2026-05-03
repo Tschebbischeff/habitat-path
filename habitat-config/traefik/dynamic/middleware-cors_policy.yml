@@ -7,7 +7,7 @@ http:
           - OPTIONS
           - POST
         accessControlAllowOriginList:
-          - "https://{{ env "APP_HOST" }}"
+          - 'https://{{ env "APP_HOST" }}'
         accessControlMaxAge: 100
         accessControlAllowHeaders:
           - "Authorization"
