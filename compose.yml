@@ -74,7 +74,7 @@ services:
       retries: 5
       start_period: 15s
     depends_on:
-      habitat-config:
+      habitat-config-path:
         condition: service_completed_successfully
 
   tailscale:
