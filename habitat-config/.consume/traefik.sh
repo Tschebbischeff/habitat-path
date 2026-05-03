@@ -15,7 +15,7 @@ mergeYAML() {
     local sourceFile="$1"
     local targetFile="$2"
     local mergedFileContents="";
-    echo "Merging '$sourceFile' into '$targetFile'"
+    echo "Merging '${sourceFile#"$SOURCE_PATH"}' into '${targetFile#"$SOURCE_PATH"}'"
     mkdir -p "$(dirname -- "$targetFile")"
     touch "$targetFile"
     # shellcheck disable=SC2016 # $item variable is part of yq expression and not to be expanded
@@ -29,7 +29,7 @@ for moduleSrcPath in "$SOURCE_PATH/"*; do
     (
         cd "$moduleSrcPath"
         find . -name '*.yml' -type f -printf '%P\n' | while read -r cfgRelFilePath; do
-            mergeYAML "$cfgRelFilePath" "$MERGE_PATH/$cfgRelFilePath"
+            mergeYAML "$moduleSrcPath/$cfgRelFilePath" "$MERGE_PATH/$cfgRelFilePath"
         done
     )
     echo "Evaluating priorities..."
@@ -46,7 +46,7 @@ for moduleSrcPath in "$SOURCE_PATH/"*; do
             cfgFileBaseName="${cfgFileBaseName%.*}"
             cfgFilePriority="${cfgFilePriority##hbtprio-}"
             cfgFilePriority="$(( cfgFilePriority + 0 ))"
-            mergeYAML "$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
+            mergeYAML "$MERGE_PATH/$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
         done
     )
 done
