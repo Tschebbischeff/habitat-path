@@ -32,24 +32,25 @@ for moduleSrcPath in "$SOURCE_PATH/"*; do
             mergeYAML "$moduleSrcPath/$cfgRelFilePath" "$MERGE_PATH/$cfgRelFilePath"
         done
     )
-    echo "Evaluating priorities..."
-    (
-        cd "$MERGE_PATH"
-        find . -name '*.yml' -type f -printf '%P\n' | while read -r cfgRelFilePath; do
-            cfgFileName="$(basename -- "$cfgRelFilePath")"
-            cfgFileExtension="${cfgFileName##*.}"
-            cfgFileBaseName="${cfgFileName%.*}"
-            cfgFilePriority="${cfgFileBaseName##*.}"
-            if ! [[ "$cfgFilePriority" =~ ^hbtprio-[0-9]+$ ]] || [ "$cfgFilePriority" == "$cfgFileBaseName" ]; then
-                continue
-            fi
-            cfgFileBaseName="${cfgFileBaseName%.*}"
-            cfgFilePriority="${cfgFilePriority##hbtprio-}"
-            cfgFilePriority="$(( cfgFilePriority + 0 ))"
-            mergeYAML "$MERGE_PATH/$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
-        done
-    )
 done
+
+echo "Merging based on priorities..."
+(
+    cd "$MERGE_PATH"
+    find . -name '*.yml' -type f -printf '%P\n' | while read -r cfgRelFilePath; do
+        cfgFileName="$(basename -- "$cfgRelFilePath")"
+        cfgFileExtension="${cfgFileName##*.}"
+        cfgFileBaseName="${cfgFileName%.*}"
+        cfgFilePriority="${cfgFileBaseName##*.}"
+        if ! [[ "$cfgFilePriority" =~ ^hbtprio-[0-9]+$ ]] || [ "$cfgFilePriority" == "$cfgFileBaseName" ]; then
+            continue
+        fi
+        cfgFileBaseName="${cfgFileBaseName%.*}"
+        cfgFilePriority="${cfgFilePriority##hbtprio-}"
+        cfgFilePriority="$(( cfgFilePriority + 0 ))"
+        mergeYAML "$MERGE_PATH/$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
+    done
+)
 
 echo "Copying final configuration to '$TARGET_PATH'"
 cp -rp "$MERGE_PATH" "$TARGET_PATH"
