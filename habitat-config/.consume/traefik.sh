@@ -54,6 +54,7 @@ echo "Merging based on priorities..."
 )
 
 echo "Copying final configuration to '$TARGET_PATH'"
+rm -rf "${TARGET_PATH:?}/"{*,.*} &>/dev/null
 cp -rp "$MERGE_PATH/." "$TARGET_PATH/"
 
 exit 0
