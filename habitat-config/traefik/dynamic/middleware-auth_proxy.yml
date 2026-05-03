@@ -3,4 +3,4 @@ http:
     auth-proxy:
       headers:
         customRequestHeaders:
-          X-Auth-Status: "none"
+          X-Auth-Provider: "none"

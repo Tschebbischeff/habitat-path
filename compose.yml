@@ -9,8 +9,9 @@ networks:
         - subnet: 172.18.0.0/16
 
 volumes:
+  habitat-config:
   traefik-certs:
-  traefik-dynamic:
+  traefik-config:
   tailscale:
 
 
@@ -26,7 +27,7 @@ services:
 
   habitat-config:
     image: tschebbischeff/habitat-config:latest
-    container_name: ${APP_NAME_HOST}_habitat-config
+    container_name: ${APP_NAME_HOST}_${APP_MODULE_NAME}_habitat-config
     restart: no
     env_file:
       - ./.env
@@ -37,8 +38,9 @@ services:
     networks:
       internal:
     volumes:
-      - traefik-dynamic:/habitat-config/target/traefik
-      - ./habitat-config:/habitat-config/source/${APP_MODULE_NAME}:ro
+      - habitat-config:/habitat-config/orchestration
+      - traefik-config:/habitat-config/target/traefik
+      - ./habitat-config:/habitat-config/source:ro
 
   traefik:
     build:
@@ -59,9 +61,8 @@ services:
       - PORKBUN_API_KEY
       - PORKBUN_API_SECRET_KEY
     volumes:
-      - ./traefik/config:/etc/traefik
+      - traefik-config:/etc/traefik
       - traefik-certs:/etc/traefik-certs
-      - traefik-dynamic:/etc/traefik-dynamic
     networks:
       internal:
     healthcheck:
@@ -70,6 +71,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
+    depends_on:
+      habitat-config:
+        condition: service_completed_successfully
 
   tailscale:
     build:
