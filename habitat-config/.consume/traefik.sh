@@ -49,6 +49,7 @@ echo "Merging based on priorities..."
         cfgFilePriority="${cfgFilePriority##hbtprio-}"
         cfgFilePriority="$(( cfgFilePriority + 0 ))"
         mergeYAML "$MERGE_PATH/$cfgRelFilePath" "$MERGE_PATH/$(dirname -- "$cfgRelFilePath")/$cfgFileBaseName.$cfgFileExtension"
+        rm "$MERGE_PATH/$cfgRelFilePath"
     done
 )
 
