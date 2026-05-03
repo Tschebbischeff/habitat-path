@@ -117,7 +117,6 @@ At build-time Docker requires the following environment variables to be populate
 | Name | Description | Example | Default |
 | :-- | :-- | :-- | :-- |
 | `APP_HOST` | The main URL the device will be reachable at. | `my-habitat.example.com` | *Empty* |
-| `APP_MODULE_NAME` | The name of this habitat module to differentiate it from other modules. Used for differentiating sources of injected files for example. | `core` | `path` |
 | `APP_NAME_HOST` | The prefix for all docker networks and containers, that this application will create. Also used as the internal hostname within all containers. | `my-habitat` | `habitat` |
 | `APP_NAME_LABEL` | The human readable name of the device. | `My Habitat` | `Habitat` |
 | `TIMEZONE` | Timezone identifier passed on to containers. | `Europe/Paris` | `Europe/Berlin` |
