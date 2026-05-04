@@ -8,5 +8,5 @@ TARGET_PATH="/habitat-config/target/traefik"
 echo "Cleaning previous configuration at '$TARGET_PATH'"
 rm -rf "${TARGET_PATH:?}/"{*,.*} &>/dev/null
 echo "Copying new configuration to '$TARGET_PATH'"
-cp -rp "$MERGE_PATH/." "$TARGET_PATH/"
+cp -rp "$SOURCE_PATH/." "$TARGET_PATH/"
 exit 0
