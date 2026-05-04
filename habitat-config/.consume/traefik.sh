@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SOURCE_PATH="$1"
-TARGET_PATH="$2"
+TARGET_PATH="/habitat-config/target/traefik"
 [ -z "$SOURCE_PATH" ] && { echo "No configuration source directory provided."; exit 1; }
 [ -d "$SOURCE_PATH" ] || { echo "Could not find configuration source directory '$SOURCE_PATH'."; exit 1; }
 [ -z "$TARGET_PATH" ] && { echo "No configuration target directory provided."; exit 1; }
