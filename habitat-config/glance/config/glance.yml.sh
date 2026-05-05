@@ -52,8 +52,10 @@ TARGET_FILE_CONTENT="$(yq eval '
 
 # shellcheck disable=2016 # Variables are internal to yq expression
 TARGET_FILE_CONTENT="$(yq eval '
-  ( .pages[] | select(.name == "'"$DEV_PAGE_NAME"'").columns[0].widgets | select (.type == "releases") )
-  .repositories += load("'"$SOURCE_FILE_DEV_REPOSITORIES"'")
+  (
+    .pages[] | select(.name == "'"$DEV_PAGE_NAME"'").columns[0].widgets[] |
+    select(.type == "releases") | .[0]
+  ).repositories += load("'"$SOURCE_FILE_DEV_REPOSITORIES"'")
 ' <<<"$TARGET_FILE_CONTENT")"
 
 # ### Clean Up, Print Result and Exit
