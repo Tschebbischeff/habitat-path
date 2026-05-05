@@ -41,8 +41,8 @@ services:
       internal:
     volumes:
       - habitat-config:/habitat-config/orchestration
-      - traefik-config:/habitat-config/target/traefik
       - ./habitat-config:/habitat-config/source:ro
+      - traefik-config:/habitat-config/target/traefik
 
   traefik:
     build:
