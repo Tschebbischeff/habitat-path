@@ -32,7 +32,7 @@ Each of the modules is designed as an opinionated docker stack that can be deplo
 
 ![TODO](https://img.shields.io/badge/TODO-Coming_Soon_(TM)-red?style=flat)
 
-## Features
+## Module Features
 
 [![Tailscale](https://img.shields.io/badge/Tailscale-_?style=flat&logo=tailscale&logoColor=242424&logoSize=auto&color=gray&labelColor=gray)](https://tailscale.com/)
 [![Traefik](https://img.shields.io/badge/Traefik-_?style=flat&logo=traefikproxy&logoColor=24A1C1&logoSize=auto&color=gray&labelColor=gray)](https://traefik.io/traefik)
