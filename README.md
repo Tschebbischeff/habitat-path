@@ -17,16 +17,16 @@ Each of the modules is designed as an opinionated docker stack that can be deplo
  Network routing and reverse proxy
  - **[Scent](https://github.com/Tschebbischeff/habitat-scent)** \
  Identity provider, LDAP directory and access control
+ - **[Vista](https://github.com/Tschebbischeff/habitat-vista)** \
+ Central dashboards and device entry points
  - **[Chatter](https://github.com/Tschebbischeff/habitat-chatter)** \
  Message queue for realtime communication between modules
- - **[Sight](https://github.com/Tschebbischeff/habitat-sight)** \
- Real-time video streaming
  - **[Hoard](https://github.com/Tschebbischeff/habitat-hoard)** \
  Time-series database and persistent storage
  - **[Vigil](https://github.com/Tschebbischeff/habitat-vigil)** \
  Device monitoring, visualization and alerting
- - **[Vista](https://github.com/Tschebbischeff/habitat-vista)** \
- Central dashboards and device entry points
+ - **[Sight](https://github.com/Tschebbischeff/habitat-sight)** \
+ Real-time video streaming
 
 ## Our Principles
 
@@ -76,7 +76,7 @@ The existing [.env](./.env) file contains sane defaults for most necessary envir
 *Example:*
 ```sh
 export APP_HOST="my-habitat.example.com"
-export APP_MODULES="path,scent,chatter,sight,hoard,vigil,vista"
+export APP_MODULES="path,scent,vista,chatter,hoard,vigil,sight"
 export APP_SESSION_ID="$(cat /proc/sys/kernel/random/uuid)"
 export APP_NAME_LABEL="MyHabitat"
 export TIMEZONE="Europe/London"
@@ -109,7 +109,7 @@ It is also possible to create a `.env` file in an unrelated directory ([Compose 
 # /path/to/your/.env
 COMPOSE_FILE="/path/to/repository/compose.yml"
 APP_HOST="my-habitat.example.com"
-APP_MODULES="path,scent,chatter,sight,hoard,vigil,vista"
+APP_MODULES="path,scent,vista,chatter,hoard,vigil,sight"
 APP_SESSION_ID="$(cat /proc/sys/kernel/random/uuid)"
 APP_NAME_LABEL="MyHabitat"
 TIMEZONE="Europe/Madrid"
@@ -123,7 +123,7 @@ At build-time Docker requires the following environment variables to be populate
 | Name | Description | Example | Default |
 | :-- | :-- | :-- | :-- |
 | `APP_HOST` | The main URL the device will be reachable at. | `my-habitat.example.com` | *Empty* |
-| `APP_MODULES` | A comma separated list of module names that are started in the same docker namespace (same project name) as this module. | `path,scent,chatter,sight,hoard,vigil,vista` | *Empty* |
+| `APP_MODULES` | A comma separated list of module names that are started in the same docker namespace (same project name) as this module. | `path,scent,vista,chatter,hoard,vigil,sight` | *Empty* |
 | `APP_SESSION_ID` | A session ID used for synchronization of configuration between modules, should change every time all modules are restarted in unison and remain unchanged if a single module is restarted without being updated. | `$(cat /proc/sys/kernel/random/uuid)` | *Empty* |
 | `APP_NAME_HOST` | The prefix for all docker networks and containers, that this application will create. Also used as the internal hostname within all containers. | `my-habitat` | `habitat` |
 | `APP_NAME_LABEL` | The human readable name of the device. | `My Habitat` | `Habitat` |
