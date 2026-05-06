@@ -12,7 +12,8 @@ volumes:
   habitat-config:
   traefik-certs:
   traefik-config:
-  tailscale:
+  tailscale-state:
+  tailscale-config:
 
 
 secrets:
@@ -43,6 +44,7 @@ services:
       - habitat-config:/habitat-config/orchestration
       - ./habitat-config:/habitat-config/source:ro
       - traefik-config:/habitat-config/target/traefik
+      - tailscale-config:/habitat-config/target/tailscale
 
   traefik:
     build:
@@ -101,8 +103,8 @@ services:
     secrets:
       - TS_AUTHKEY
     volumes:
-      - tailscale:/var/lib/tailscale
-      - ./tailscale/config:/config
+      - tailscale-state:/var/lib/tailscale
+      - tailscale-config:/config
     networks:
       internal:
     healthcheck:

@@ -13,18 +13,10 @@
                     "Proxy": "http://127.0.0.1:443"
                 }
             }
-        },
-        "${TS_CERT_DOMAIN}:8189": {
-            "Handlers": {
-                "/": {
-                    "Proxy": "http://127.0.0.1:8189"
-                }
-            }
         }
     },
     "AllowFunnel": {
         "${TS_CERT_DOMAIN}:80": false,
-        "${TS_CERT_DOMAIN}:443": false,
-        "${TS_CERT_DOMAIN}:8189": false
+        "${TS_CERT_DOMAIN}:443": false
     }
 }
