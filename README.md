@@ -4,9 +4,8 @@
 
 # Habitat: Path
 
-**🚧
-This project is currently under heavy development, any information may be subject to change.
-🚧**
+> [!CAUTION]
+> **🚧 This project is currently under heavy development, any information may be subject to change. 🚧**
 
 Habitat provides modular functionality for deployment on home lab devices. \
 Each of the modules is designed as an opinionated docker stack that can be deployed on its own or together with other modules by sharing the same docker network.
@@ -88,11 +87,11 @@ docker compose up
 
 You can also create the file `._env` in the root directory of the cloned repository and instruct docker compose to use this file instead via the `--env-file` argument, i.e `docker compose up --env-file "./._env"` ([Compose documentation](https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/)).
 
-> ℹ️ The file `._env` is included in [.gitignore](./.gitignore) and is guaranteed to not interfere with future updates via `git pull`.
+> [!TIP]
+> The file `._env` is included in [.gitignore](./.gitignore) and is guaranteed to not interfere with future updates via `git pull`.
 
-> *⚠️
-> If this method is used you need to define **all** necessary environment variables from the [.env](./.env) file, as docker compose will not use that file as a fallback, it is therefore recommended to copy the current `.env` file and replace all variable values.
-> ⚠️*
+> [!IMPORTANT]
+> *If this method is used you need to define **all** necessary environment variables from the [.env](./.env) file, as docker compose will not use that file as a fallback, it is therefore recommended to copy the current `.env` file and replace all variable values.*
 
 *Example:* [See .env](./.env)
 
@@ -100,9 +99,11 @@ You can also create the file `._env` in the root directory of the cloned reposit
 
 It is also possible to create a `.env` file in an unrelated directory ([Compose documentation](https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/#local-env-file-versus-project-directory-env-file)).
 
-> ℹ️ In this case you need to set the additional variable `COMPOSE_FILE` to the path of the repository's compose file and all variables inside the [.env](./.env) file will be loaded as fallback, if your own `.env` file does not define them.
+> [!NOTE]
+> In this case you need to set the additional variable `COMPOSE_FILE` to the path of the repository's compose file and all variables inside the [.env](./.env) file will be loaded as fallback, if your own `.env` file does not define them.
 
-> ℹ️ You do not need to instruct docker compose to use this file as long as you run `docker compose up` from the directory containing your `.env` file.
+> [!NOTE]
+> You do not need to instruct docker compose to use this file as long as you run `docker compose up` from the directory containing your `.env` file.
 
 *Example:*
 ```sh
