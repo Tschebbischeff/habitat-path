@@ -1,8 +1,4 @@
 /.env.d
 /.volumes
 /.secrets
-/._env
-**/.direnv
-**/.venv
-**/.mypy_cache
-**/*.egg-info
+/_.env
