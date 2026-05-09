@@ -50,7 +50,7 @@ services:
     build:
       context: ./traefik
     container_name: ${APP_NAME_HOST}_traefik
-    restart: always
+    restart: unless-stopped
     expose:
       - "80"
       - "443"
@@ -83,7 +83,7 @@ services:
     build:
       context: ./tailscale
     container_name: ${APP_NAME_HOST}_tailscale
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
       - path: ${ENV_DIR}/.env
