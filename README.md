@@ -61,9 +61,11 @@ Each of the modules is designed as an opinionated docker stack that can be deplo
 
 ### Configuration
 
-The application is designed to be controlled exclusively with environment variables and secrets.
-
-All secrets are expected to be files within a single folder. This folder can be set via environment variable (`SECRETS_DIR`) itself and defaults to `./.secrets` (git-ignored folder).
+> [!IMPORTANT]
+> All habitat modules are designed to be controlled exclusively with environment variables and secrets. \
+> Refer to the configuration section of each module for an overview of how to configure it. \
+> **This section describes how to configure the module without the help of the [Habitat Deployment Service](https://github.com/Tschebbischeff/habitat). \
+> It is highly recommended to use the deployment service for ease of use and skip to the lists of environment variables and secrets for this module.**
 
  - [List of environment variables](#environment-variables)
  - [List of secrets](#secrets)
@@ -136,8 +138,10 @@ At build-time Docker requires the following environment variables to be populate
 
 ### Secrets
 
-The following secrets must exist within the `SECRETS_DIR` directory at build-time, otherwise running the stack will fail.
-They are expected to be files with the secret value being the content of the file.
+> [!NOTE]
+> All secrets are expected to be files within a single folder, each file containing the value of the secret. \
+> This folder can be set via environment variable (`SECRETS_DIR`) itself and defaults to `./.secrets` (git-ignored folder). \
+> All secrets must be present at run-time.
 
 | (File) Name | Description | Documentation / How to Obtain |
 | :-- | :-- | :-- |
