@@ -113,3 +113,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+    depends_on:
+      habitat-config-path:
+        condition: service_completed_successfully
