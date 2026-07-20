@@ -1,0 +1,5 @@
+access_control:
+  rules:
+    - domain: 'traefik-dashboard.{{ env "APP_HOST" }}'
+      subject: 'group:traefik-dashboard_users'
+      policy: one_factor
