@@ -29,6 +29,7 @@ You can check out all officially available modules [here](https://github.com/Tsc
  Merging dynamic configuration from other Habitat modules for routing subdomains to other services
 
 ### Planned
+
  - **Extended Configuration** \
  Connecting to custom Headscale control servers
  - **Domainless Operation** \
