@@ -112,6 +112,12 @@ SECRETS_DIR="/run/secrets"
 
 *This module does not require any additional environment variables.*
 
+<!--
+| Name | Description | Example | Default |
+| :-- | :-- | :-- | :-- |
+| `EXAMPLE` | An example description. | `some-value` | *Empty* |
+-->
+
 ### Secrets
 
 > [!NOTE]
