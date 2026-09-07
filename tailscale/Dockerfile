@@ -5,4 +5,5 @@ RUN chmod +x /entrypoint-hook.sh
 
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.21/main/ socat grep
 
-CMD ["sh", "-c", "/entrypoint-hook.sh"]
+ENTRYPOINT ["/entrypoint-hook.sh"]
+CMD ["/usr/local/bin/containerboot"]
