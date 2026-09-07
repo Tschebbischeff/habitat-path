@@ -100,6 +100,7 @@ services:
       TS_LOCAL_ADDR_PORT: "127.0.0.1:41234"
       TS_AUTH_ONCE: "true"
       TS_AUTHKEY_FILE: /run/secrets/TS_AUTHKEY
+      TS_NO_LOGS_NO_SUPPORT: "true"
     secrets:
       - TS_AUTHKEY
     volumes:
