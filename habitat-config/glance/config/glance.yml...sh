@@ -44,7 +44,7 @@ cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
       data-lib-femon
       data-lib-femon-title="Traefik Dashboard"
       data-lib-femon-url="https://traefik-dashboard.${APP_HOST}"
-      data-lib-femon-hide-codes=""
+      data-lib-femon-hide-codes="403"
       data-lib-femon-icon="/assets/icons/di/traefik-proxy.svg"
     ></div>
 EOF
