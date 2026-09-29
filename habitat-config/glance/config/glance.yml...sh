@@ -39,15 +39,15 @@ EOF
 
 cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
 - type: html
+  title: 'Traefik Dashboard'
   source: |
-    <div class="widget"
-          data-url="http://${APP_NAME_HOST}_traefik:8080"
-          data-title="Traefik Dashboard"
-          data-hide-codes=""
-          data-icon="/assets/icons/di/traefik-proxy.svg"
-    >
-      <script src="/assets/js/frontend_monitor.js"></script>
-    </div>
+    <div class="glance-lib"
+      data-lib-femon
+      data-lib-femon-title="Traefik Dashboard"
+      data-lib-femon-url="https://traefik-dashboard.${APP_HOST}"
+      data-lib-femon-hide-codes=""
+      data-lib-femon-icon="/assets/icons/di/traefik-proxy.svg"
+    ></div>
 EOF
 
 cat >"$SOURCE_FILE_DEV_REPOSITORIES" <<'EOF'
