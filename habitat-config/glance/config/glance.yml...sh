@@ -24,9 +24,9 @@ DEV_PAGE_NAME="Development"
 # EOF
 
 cat >"$SOURCE_FILE_APP_CATEGORY" <<EOF
-type: group
-cache: 10s
+type: split-column
 title: "$APP_PAGE_CATEGORY_NAME"
+max-columns: 1
 widgets: []
 EOF
 
