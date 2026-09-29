@@ -16,18 +16,38 @@ APP_PAGE_NAME="Apps"
 APP_PAGE_CATEGORY_NAME="Monitoring"
 DEV_PAGE_NAME="Development"
 
+# cat >"$SOURCE_FILE_APP_CATEGORY" <<EOF
+# type: monitor
+# cache: 10s
+# title: "$APP_PAGE_CATEGORY_NAME"
+# sites: []
+# EOF
+
 cat >"$SOURCE_FILE_APP_CATEGORY" <<EOF
-type: monitor
+type: group
 cache: 10s
 title: "$APP_PAGE_CATEGORY_NAME"
-sites: []
+widgets: []
 EOF
 
+# cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
+# - title: "Traefik Dashboard"
+#   url: https://traefik-dashboard.${APP_HOST}
+#   check-url: http://${APP_NAME_HOST}_traefik:8080
+#   icon: /assets/icons/di/traefik-proxy.svg
+# EOF
+
 cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
-- title: "Traefik Dashboard"
-  url: https://traefik-dashboard.${APP_HOST}
-  check-url: http://${APP_NAME_HOST}_traefik:8080
-  icon: /assets/icons/di/traefik-proxy.svg
+- type: custom
+  html: |
+    <div class="widget"
+          data-url="http://${APP_NAME_HOST}_traefik:8080"
+          data-title="Traefik Dashboard"
+          data-hide-codes=""
+          data-icon="/assets/icons/di/traefik-proxy.svg"
+    >
+      <script src="/assets/js/frontend_monitor.js"></script>
+    </div>
 EOF
 
 cat >"$SOURCE_FILE_DEV_REPOSITORIES" <<'EOF'
@@ -50,11 +70,18 @@ YQ_ADD_CATEGORY='
     .widgets
   ) += load("'"$SOURCE_FILE_APP_CATEGORY"'")
 '
+# YQ_ADD_SITE='
+#   (
+#     .pages[] | select(.name == "'"$APP_PAGE_NAME"'") |
+#     .columns[0].widgets[] | select(.type == "split-column") |
+#     .widgets[] | select(.title == "'"$APP_PAGE_CATEGORY_NAME"'") | .sites
+#   ) += load("'"$SOURCE_FILE_APP_SITE"'")
+# '
 YQ_ADD_SITE='
   (
     .pages[] | select(.name == "'"$APP_PAGE_NAME"'") |
     .columns[0].widgets[] | select(.type == "split-column") |
-    .widgets[] | select(.title == "'"$APP_PAGE_CATEGORY_NAME"'") | .sites
+    .widgets[] | select(.title == "'"$APP_PAGE_CATEGORY_NAME"'") | .widgets
   ) += load("'"$SOURCE_FILE_APP_SITE"'")
 '
 
