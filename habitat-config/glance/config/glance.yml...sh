@@ -38,8 +38,8 @@ EOF
 # EOF
 
 cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
-- type: custom
-  html: |
+- type: html
+  source: |
     <div class="widget"
           data-url="http://${APP_NAME_HOST}_traefik:8080"
           data-title="Traefik Dashboard"
