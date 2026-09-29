@@ -13,7 +13,7 @@ SOURCE_FILE_APP_SITE="$(mktemp)"
 SOURCE_FILE_DEV_REPOSITORIES="$(mktemp)"
 
 APP_PAGE_NAME="Apps"
-APP_PAGE_CATEGORY_NAME="Monitoring (FE)"
+APP_PAGE_CATEGORY_NAME="Monitoring"
 DEV_PAGE_NAME="Development"
 
 # cat >"$SOURCE_FILE_APP_CATEGORY" <<EOF
@@ -39,7 +39,6 @@ EOF
 
 cat >"$SOURCE_FILE_APP_SITE" <<'EOF'
 - type: html
-  title: 'Traefik Dashboard'
   source: |
     <div class="glance-lib"
       data-lib-femon
