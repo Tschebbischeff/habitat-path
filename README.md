@@ -112,8 +112,8 @@ SECRETS_DIR="/run/secrets"
 
 | Name | Description | Example | Default |
 | :-- | :-- | :-- | :-- |
-| `TRAEFIK_VERSION` | Tag for the [traefik docker image](https://hub.docker.com/_/traefik). | `3.6` | `latest` |
-| `TAILSCALE_VERSION` | Tag for the [tailscale docker image](https://hub.docker.com/r/tailscale/tailscale). | `unstable` | `stable` |
+| `TRAEFIK_VERSION` | Tag for the [Traefik docker image](https://hub.docker.com/_/traefik). | `3.6` | `latest` |
+| `TAILSCALE_VERSION` | Tag for the [Tailscale docker image](https://hub.docker.com/r/tailscale/tailscale). | `unstable` | `stable` |
 
 ### Secrets
 
