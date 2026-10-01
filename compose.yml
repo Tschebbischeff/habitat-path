@@ -49,6 +49,8 @@ services:
   traefik:
     build:
       context: ./traefik
+      args:
+        TRAEFIK_VERSION: "${TRAEFIK_VERSION:?}"
     container_name: ${APP_NAME_HOST}_traefik
     restart: unless-stopped
     expose:
@@ -82,6 +84,8 @@ services:
   tailscale:
     build:
       context: ./tailscale
+      args:
+        TAILSCALE_VERSION: "${TAILSCALE_VERSION:?}"
     container_name: ${APP_NAME_HOST}_tailscale
     restart: unless-stopped
     env_file:

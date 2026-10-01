@@ -110,13 +110,10 @@ SECRETS_DIR="/run/secrets"
 > [!TIP]
 > Some environment variables are used commonly throughout all modules, you can check the list [here](https://github.com/Tschebbischeff/habitat#environment-variables-for-modules).
 
-*This module does not require any additional environment variables.*
-
-<!--
 | Name | Description | Example | Default |
 | :-- | :-- | :-- | :-- |
-| `EXAMPLE` | An example description. | `some-value` | *Empty* |
--->
+| `TRAEFIK_VERSION` | Tag for the [traefik docker image](https://hub.docker.com/_/traefik). | `3.6` | `latest` |
+| `TAILSCALE_VERSION` | Tag for the [tailscale docker image](https://hub.docker.com/r/tailscale/tailscale). | `unstable` | `stable` |
 
 ### Secrets
 
