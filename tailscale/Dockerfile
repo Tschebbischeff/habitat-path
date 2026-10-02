@@ -1,5 +1,5 @@
 ARG TAILSCALE_VERSION
-FROM tailscale/tailscale:${TAILSCALE_VERSION}
+FROM tailscale/tailscale:${TAILSCALE_VERSION:?}
 
 COPY ./entrypoint-hook.sh /entrypoint-hook.sh
 RUN chmod +x /entrypoint-hook.sh
